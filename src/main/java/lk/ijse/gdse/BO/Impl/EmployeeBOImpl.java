@@ -12,7 +12,7 @@ import java.util.List;
 
 public class EmployeeBOImpl implements EmployeeBO {
     EmployeeDAO employeeDAO = (EmployeeDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.EMPLOYEE);
-    public boolean saveEmployee(Employee employee) throws SQLException {
+    public boolean saveEmployee(EmployeeDTO employee) throws SQLException {
         return employeeDAO.save(new Employee(employee.getEmployeeId(), employee.getName(), employee.getNICNo(),employee.getAddress(), employee.getTel(),employee.getSalary()));
     }
 
@@ -29,7 +29,7 @@ public class EmployeeBOImpl implements EmployeeBO {
         return employeeDAO.delete(id);
     }
 
-    public boolean updateEmployee(Employee employee) throws SQLException {
+    public boolean updateEmployee(EmployeeDTO employee) throws SQLException {
         return employeeDAO.update(new Employee(employee.getEmployeeId(), employee.getName(), employee.getNICNo(), employee.getAddress(), employee.getTel(), employee.getSalary()));
     }
 

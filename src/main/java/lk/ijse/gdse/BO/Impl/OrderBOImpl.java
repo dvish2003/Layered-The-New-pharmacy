@@ -3,6 +3,7 @@ package lk.ijse.gdse.BO.Impl;
 import lk.ijse.gdse.BO.OrderBO;
 import lk.ijse.gdse.DAO.DAOFactory;
 import lk.ijse.gdse.DAO.OrderDAO;
+import lk.ijse.gdse.DTO.OrderDTO;
 import lk.ijse.gdse.Entity.Order;
 
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ public class OrderBOImpl implements OrderBO {
     }
 
     @Override
-    public boolean saveOrder(Order order) throws SQLException {
+    public boolean saveOrder(OrderDTO order) throws SQLException {
         return orderDAO.save(new Order(order.getOrderId(), order.getDescription(), order.getPaymentAmount(), order.getDate(), order.getCuId(), order.getPayId(), order.getEmployeeId()));
     }
 }

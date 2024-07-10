@@ -238,7 +238,7 @@ public class ItemFormController {
         double unitPrice = Double.parseDouble(txtUnitPrice.getText());
         int qtyOnHand = Integer.parseInt(txtQtyOnHand.getText());
 
-        Item item = new Item(itemId, description, unitPrice, qtyOnHand, stockId);
+        ItemDTO item = new ItemDTO(itemId, description, unitPrice, qtyOnHand, stockId);
         try {
             boolean isUpdate = itemBO.updateItem(item);
             if (isUpdate) {

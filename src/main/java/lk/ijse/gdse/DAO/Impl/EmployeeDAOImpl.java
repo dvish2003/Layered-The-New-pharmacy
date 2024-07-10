@@ -66,55 +66,31 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public boolean delete(String id) throws SQLException {
-        /*String sql = "DELETE FROM Employee WHERE employeeId = ?";
 
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
-        pstm.setObject(1,id);
-
-        return pstm.executeUpdate() > 0;*/
         return SQLUtil.execute("DELETE FROM Employee WHERE employeeId = ?",id);
     }
 
     @Override
     public boolean update(Employee employee) throws SQLException {
-        /*String sql = "UPDATE Employee SET name = ? , nicNo = ? , address = ? , tel = ? , salary = ? WHERE employeeId = ?";
-        PreparedStatement pstm = DbConnection.getInstance().getConnection().prepareStatement(sql);
 
-        pstm.setObject(1,employee.getName());
-        pstm.setObject(2,employee.getNICNo());
-        pstm.setObject(3,employee.getAddress());
-        pstm.setObject(4,employee.getTel());
-        pstm.setObject(5,employee.getSalary());
-        pstm.setObject(6,employee.getEmployeeId());
-
-        return pstm.executeUpdate() > 0;*/
-        return SQLUtil.execute("UPDATE Employee SET name = ? , nicNo = ? , address = ? , tel = ? , salary = ? WHERE employeeId = ?",employee.getEmployeeId(),employee.getName(),employee.getNICNo(),employee.getAddress(),employee.getTel(),employee.getSalary());
+        return SQLUtil.execute("UPDATE Employee SET name = ? , nicNo = ? , address = ? , tel = ? , salary = ? WHERE employeeId = ?",
+                employee.getName(),employee.getNICNo(),employee.getAddress(),employee.getTel(),employee.getSalary(),employee.getEmployeeId());
     }
 
     @Override
     public Employee searchByTel(String tel) throws SQLException {
-        /*String sql = "SELECT * FROM Employee WHERE tel = ?";
 
-        Connection connection = DbConnection.getInstance().getConnection();
-        PreparedStatement pstm = connection.prepareStatement(sql);
-        pstm.setString(1, tel);
-
-        ResultSet resultSet = pstm.executeQuery();
-        if (resultSet.next()) {
-            String tel1 = resultSet.getString("tel");
-            String employeeId = resultSet.getString("employeeId");
-            String name = resultSet.getString("name");
-            String address = resultSet.getString("address");
-            String nicNo = resultSet.getString("NICNo");
-            double salary = resultSet.getDouble("salary");
-
-            Employee employee = new Employee(employeeId, name, nicNo, address, tel1, salary);
-            return employee;
+        ResultSet rst = SQLUtil.execute("SELECT * FROM Employee WHERE tel = ?",tel);
+        if(rst.next()){
+            String id = rst.getString(1);
+            String name = rst.getString(2);
+            String nicNo = rst.getString(3);
+            String address = rst.getString(4);
+            String telNo = rst.getString(5);
+            double salary = rst.getDouble(6);
+            return new Employee(id,name,nicNo,address,telNo,salary);
         }
-        return null;*/
-        ResultSet rst = SQLUtil.execute("SELECT * FROM Employee WHERE tel = ?",tel +"");
-        rst.next();
-        return new Employee(rst.getString("1"), rst.getString(2), rst.getString(3),rst.getString(4), rst.getString(5),rst.getDouble(6));
+        return null;
     }
 
     @Override

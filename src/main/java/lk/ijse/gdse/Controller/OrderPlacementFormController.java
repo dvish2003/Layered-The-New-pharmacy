@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.gdse.BO.*;
+import lk.ijse.gdse.BO.Impl.PlaceOrderBOImpl;
 import lk.ijse.gdse.DAO.Impl.*;
 import lk.ijse.gdse.DB.DbConnection;
 import lk.ijse.gdse.DTO.OrderDTO;
@@ -261,9 +262,9 @@ public class OrderPlacementFormController {
         int Qty = Integer.parseInt(txtQty.getText());
         double Amount = Unit_Price * Qty;
 
-        JFXButton btnRemove = new JFXButton("remove");
-        btnRemove.setCursor(Cursor.HAND);
-        btnRemove.setOnAction((e) -> {
+            JFXButton btnRemove = new JFXButton("remove");
+            btnRemove.setCursor(Cursor.HAND);
+            btnRemove.setOnAction((e) -> {
             ButtonType yes = new ButtonType("yes", ButtonBar.ButtonData.OK_DONE);
             ButtonType no = new ButtonType("no", ButtonBar.ButtonData.CANCEL_CLOSE);
             Optional<ButtonType> type = new Alert(Alert.AlertType.INFORMATION, "Are you sure to remove?", yes, no).showAndWait();
@@ -344,12 +345,12 @@ public class OrderPlacementFormController {
         String PayMethod = "Cash";
 
 
-        Order order = new Order(orderID,desc,Amount,date,customerID,paymentID,EmployeeID);
-        List<OrderDetails> odList = new ArrayList<>();
+        OrderDTO order = new OrderDTO(orderID,desc,Amount,date,customerID,paymentID,EmployeeID);
+        List<OrderDetailsDTO> odList = new ArrayList<>();
 
         for (int i = 0; i < tblOrderPlacement.getItems().size(); i++) {
             CartTm tm = obList.get(i);
-            OrderDetails od = new OrderDetails(
+            OrderDetailsDTO od = new OrderDetailsDTO(
                     tm.getI_ID(),
                     orderID,
                     tm.getQty(),
@@ -361,12 +362,13 @@ public class OrderPlacementFormController {
 
         }
 
-        Payment payment = new Payment(paymentID,PayMethod,Amount, date);
-        PlaceOrder po = new PlaceOrder(order, odList, payment);
+        PaymentDTO payment = new PaymentDTO(paymentID,PayMethod,Amount, date);
+        PlaceOrderDTO po = new PlaceOrderDTO(order, odList, payment);
 
         boolean isPlaced = placeOrderBO.placeOrder(po);
         if (isPlaced) {
-            btnPrintBillOnAction(null);
+            System.out.println("Transfer is done");
+           // btnPrintBillOnAction(null);
             obList.clear();
             txtQty.clear();
             getCurrentOrderId();
@@ -374,6 +376,7 @@ public class OrderPlacementFormController {
 
             new Alert(Alert.AlertType.CONFIRMATION, "OrderDTO Placed!").show();
         } else {
+
             new Alert(Alert.AlertType.WARNING, "OrderDTO Placed Unsuccessfully!").show();
         }
     }

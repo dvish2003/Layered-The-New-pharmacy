@@ -223,7 +223,7 @@ public class StockFormController {
         String description = txtDescription.getText();
         String category = txtCategory.getText();
 
-        Stock stock = new Stock(id, description, category);
+        StockDTO stock = new StockDTO(id, description, category);
 
         try {
             boolean isUpdate = stockBO.updateStock(stock);

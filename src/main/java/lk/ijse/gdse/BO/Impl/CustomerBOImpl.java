@@ -29,7 +29,7 @@ public class CustomerBOImpl implements CustomerBO {
         return customerDAO.delete(id);
     }
 
-    public boolean updateCustomer(Customer customer) throws SQLException {
+    public boolean updateCustomer(CustomerDTO customer) throws SQLException {
         return customerDAO.update(new Customer(customer.getCuId(),customer.getName(),customer.getNicNo(), customer.getAddress(), customer.getTel()));
     }
 

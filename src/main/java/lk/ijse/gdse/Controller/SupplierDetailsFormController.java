@@ -1,4 +1,4 @@
-/*
+
 package lk.ijse.gdse.Controller;
 
 import com.jfoenix.controls.JFXButton;
@@ -16,6 +16,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lk.ijse.gdse.BO.*;
+import lk.ijse.gdse.DAO.StockDAO;
+import lk.ijse.gdse.DAO.SupplierDAO;
+import lk.ijse.gdse.DAO.SupplierDetailsDAO;
 import lk.ijse.gdse.DTO.SupplierDetailsDTO;
 import lk.ijse.gdse.Entity.Stock;
 import lk.ijse.gdse.Entity.Supplier;
@@ -172,14 +175,15 @@ public class SupplierDetailsFormController {
     }
 
     public void loadAllSupplierDetails() {
-        ObservableList<SupplierDetails> obList = FXCollections.observableArrayList();
+        ObservableList<SupplierDetailsDTO> obList = FXCollections.observableArrayList();
         try {
-            List<SupplierDetails> supplierDetailsList = SupplierDetailsBO.getAllSuppliers();
-            for (SupplierDetails supplierDetails : supplierDetailsList) {
-                SupplierDetails supplierDetails1 = new SupplierDetails();
-                supplierDetails1.setStockId(supplierDetails.getStockId());
-                supplierDetails1.setSupplierId(supplierDetails.getSupplierId());
-                supplierDetails1.setDate(supplierDetails.getDate());
+            List<SupplierDetailsDTO> supplierDetailsList = supplierDetailsBO.getAllSuppliers();
+            for (SupplierDetailsDTO supplierDetails : supplierDetailsList) {
+
+                SupplierDetailsDTO supplierDetails1 = new SupplierDetailsDTO(
+                supplierDetails.getStockId(),
+                supplierDetails.getSupplierId(),
+                supplierDetails.getDate());
                 obList.add(supplierDetails1);
             }
             tblSupplierDetails.setItems(obList);
@@ -212,10 +216,10 @@ public class SupplierDetailsFormController {
             return;
         }
 
-        SupplierDetails supplierDetails = new SupplierDetails(stockId, supplierId, date);
+        SupplierDetailsDTO supplierDetails = new SupplierDetailsDTO(stockId, supplierId, date);
 
         try {
-            boolean isSaved = supplierDetailsBO.save(List.of(supplierDetails));
+            boolean isSaved = supplierDetailsBO.saveSupplierDetails(supplierDetails);
             if (isSaved) {
                 new Alert(Alert.AlertType.CONFIRMATION, "SupplierDTO Details saved successfully!").show();
                 clearFields();
@@ -248,8 +252,15 @@ public class SupplierDetailsFormController {
     void comStockIdOnAction(ActionEvent event) {
         String id = (String) comStockId.getValue();
         try {
+         //   StockDAO stockDAO = new StockDAOImpl();
             Stock stock = stockBO.searchById(id);
-            lblStockDescription.setText(stock.getDescription());
+            if (stock == null) {
+                lblStockDescription.setText("Stock not Found");
+
+            }else {
+                lblStockDescription.setText(stock.getDescription());
+
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -260,15 +271,22 @@ public class SupplierDetailsFormController {
         String id = comSupplierId.getValue();
         try {
             Supplier supplier = supplierBO.searchById(id);
-            lblSupplierName.setText(supplier.getName());
+            if (supplier == null) {
+                lblSupplierName.setText("Supplier not Found");
+            } else {
+                lblSupplierName.setText(supplier.getName());  // NullPointerException occurs here
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
+
     private void clearFields() {
         comStockId.setValue(null);
         comSupplierId.setValue(null);
+        lblStockDescription.setText("");
+        lblSupplierName.setText("");
         lblDate.setText("");
     }
 
@@ -278,4 +296,4 @@ public class SupplierDetailsFormController {
         root.getChildren().clear();
         root.getChildren().add(rootNode);
     }
-}*/
+}

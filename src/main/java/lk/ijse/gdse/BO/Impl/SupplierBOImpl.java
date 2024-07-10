@@ -16,7 +16,7 @@ import java.util.List;
 public class SupplierBOImpl implements SupplierBO {
     SupplierDAO supplierDAO = (SupplierDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.SUPPLIER);
     @Override
-    public boolean saveSupplier(Supplier supplier) throws SQLException {
+    public boolean saveSupplier(SupplierDTO supplier) throws SQLException {
         return supplierDAO.save(new Supplier(supplier.getSupplierId(), supplier.getName(), supplier.getDescription(), supplier.getAddress(), supplier.getTel()));
     }
 
@@ -36,7 +36,7 @@ public class SupplierBOImpl implements SupplierBO {
     }
 
     @Override
-    public boolean updateSupplier(Supplier supplier) throws SQLException {
+    public boolean updateSupplier(SupplierDTO supplier) throws SQLException {
         return supplierDAO.update(new Supplier(supplier.getSupplierId(), supplier.getName(), supplier.getDescription(), supplier.getAddress(), supplier.getTel()));
     }
 

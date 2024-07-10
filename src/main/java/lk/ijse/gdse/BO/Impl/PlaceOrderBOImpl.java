@@ -1,6 +1,6 @@
 package lk.ijse.gdse.BO.Impl;
 
-import lk.ijse.gdse.BO.PlaceOrderBO;
+import lk.ijse.gdse.BO.*;
 import lk.ijse.gdse.DAO.*;
 import lk.ijse.gdse.DAO.Impl.ItemDAOImpl;
 import lk.ijse.gdse.DAO.Impl.OrderDAOImpl;
@@ -15,23 +15,26 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class PlaceOrderBOImpl implements PlaceOrderBO {
-    PaymentDAO paymentDAO = (PaymentDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.PAYMENT);
-    OrderDAO orderDAO = (OrderDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER);
-    ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
-    OrderDetailDAO orderDetailDAO = (OrderDetailDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_DETAILS);
+
     @Override
-    public boolean placeOrder(PlaceOrder po) throws SQLException {
+    public boolean placeOrder(PlaceOrderDTO po) throws SQLException {
             Connection connection = DbConnection.getInstance().getConnection();
             connection.setAutoCommit(false);
 
+        PaymentBO paymentBO =  new PaymentBOImpl();
+        OrderBO orderBO =  new OrderBOImpl();
+        ItemBO itemBO =  new ItemBOImpl();
+        OrderDetailsBO orderDetailsBO = new OrderDetailsBOImpl();
+
+
             try {
-                boolean isPayUpdated = paymentDAO.save(po.getPayment());
+                boolean isPayUpdated = paymentBO.savePayment(po.getPayment());
                 if (isPayUpdated) {
-                    boolean isOrderSaved = orderDAO.save(po.getOrder());
+                    boolean isOrderSaved = orderBO.saveOrder(po.getOrder());
                     if (isOrderSaved) {
-                        boolean isQtyUpdated = itemDAO.update1(po.getOdList());
+                        boolean isQtyUpdated = itemBO.update1(po.getOdList());
                         if (isQtyUpdated) {
-                            boolean isOrderDetailSaved = orderDetailDAO.save((OrderDetails) po.getOdList());
+                            boolean isOrderDetailSaved = orderDetailsBO.save(po.getOdList());
                             if (isOrderDetailSaved) {
                                 connection.commit();
                                 return true;

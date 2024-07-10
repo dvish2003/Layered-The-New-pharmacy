@@ -12,6 +12,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public interface PlaceOrderBO extends SuperBO{
-    public boolean placeOrder(PlaceOrder po) throws SQLException ;
+    public boolean placeOrder(PlaceOrderDTO po) throws SQLException ;
 
 }

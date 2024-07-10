@@ -194,7 +194,7 @@ public class CustomerFormController {
         String address = txtAddress.getText();
         String tel = txtTel.getText();
 
-        Customer customer = new Customer(id,name,nicNo,address,tel);
+        CustomerDTO customer = new CustomerDTO(id,name,nicNo,address,tel);
 
         try {
             boolean isUpdate = customerBO.updateCustomer(customer);

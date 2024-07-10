@@ -238,7 +238,7 @@ public class EmployeeFormController {
 
         try {
             if (isValied()) {
-                boolean isSaved = employeeBO.saveEmployee(new Employee(id, name, nicNo, address, tel, salary));
+                boolean isSaved = employeeBO.saveEmployee(new EmployeeDTO(id, name, nicNo, address, tel, salary));
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "EmployeeDTO saved successfully!").show();
                     clearFields();
@@ -270,7 +270,7 @@ public class EmployeeFormController {
         String tel = txtTel.getText();
         double salary = Double.parseDouble(txtSalary.getText());
 
-        Employee employee = new Employee(id, name, nicNo, address, tel, salary);
+        EmployeeDTO employee = new EmployeeDTO(id, name, nicNo, address, tel, salary);
 
         try {
             boolean isUpdate = employeeBO.updateEmployee(employee);

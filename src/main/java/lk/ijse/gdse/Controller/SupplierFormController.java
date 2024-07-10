@@ -237,7 +237,7 @@ public class SupplierFormController {
 
         try {
             if (isValied()) {
-                boolean isSaved = supplierBO.saveSupplier(new Supplier(id, name, description, address, tel));
+                boolean isSaved = supplierBO.saveSupplier(new SupplierDTO(id, name, description, address, tel));
                 if (isSaved) {
                     new Alert(Alert.AlertType.CONFIRMATION, "SupplierDTO saved successfully!").show();
                     clearFields();
@@ -260,7 +260,7 @@ public class SupplierFormController {
         String address = txtAddress.getText();
         String tel = txtTel.getText();
 
-        Supplier supplier = new Supplier(id,name,description,address,tel);
+        SupplierDTO supplier = new SupplierDTO(id,name,description,address,tel);
 
         try {
             boolean isUpdate = supplierBO.updateSupplier(supplier);
