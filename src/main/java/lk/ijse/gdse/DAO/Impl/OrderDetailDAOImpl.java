@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
-    public static boolean saveOrderDetails(List<OrderDetails> odList) throws SQLException {
+   @Override
+    public boolean saveOrderDetails(List<OrderDetails> odList) throws SQLException {
         for (OrderDetails od : odList) {
-            boolean isSaved = saveOrderDetails((List<OrderDetails>) od);
+            boolean isSaved = save(od);
             if(!isSaved) {
                 return false;
             }
@@ -23,7 +24,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 
     @Override
     public boolean save(OrderDetails od) throws SQLException {
-        /*String sql = "INSERT INTO orderDetails (itemId, orderId, qty, unitPrice) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO orderDetails (itemId, orderId, qty, unitPrice) VALUES (?, ?, ?, ?)";
 
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
@@ -33,8 +34,8 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         pstm.setInt(3, od.getQty());
         pstm.setDouble(4, od.getUnitPrice());
 
-        return pstm.executeUpdate() > 0;*/
-        return SQLUtil.execute("INSERT INTO orderDetails (itemId, orderId, qty, unitPrice) VALUES (?, ?, ?, ?)",od.getItemId(),od.getOrderId(),od.getQty(),od.getUnitPrice());
+        return pstm.executeUpdate() > 0;
+        //return SQLUtil.execute("INSERT INTO orderDetails (itemId, orderId, qty, unitPrice) VALUES (?, ?, ?, ?)",od.getItemId(),od.getOrderId(),od.getQty(),od.getUnitPrice());
     }
 
     @Override
@@ -67,3 +68,4 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         return null;
     }
 }
+//INSERT INTO orderDetails (itemId, orderId, qty, unitPrice) VALUES ()

@@ -6,6 +6,7 @@ import lk.ijse.gdse.DAO.ItemDAO;
 import lk.ijse.gdse.DTO.ItemDTO;
 import lk.ijse.gdse.DTO.OrderDetailsDTO;
 import lk.ijse.gdse.Entity.Item;
+import lk.ijse.gdse.Entity.OrderDetails;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,7 +51,13 @@ public class ItemBOImpl implements ItemBO {
 
     @Override
     public boolean update1(List<OrderDetailsDTO> odList) throws SQLException {
-        return false;
+        for (OrderDetailsDTO od : odList) {
+            boolean isUpdateQty = updateQty(od.getItemId(), od.getQty());
+            if(!isUpdateQty) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

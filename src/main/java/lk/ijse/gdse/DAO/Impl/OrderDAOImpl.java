@@ -34,8 +34,8 @@ public class OrderDAOImpl implements OrderDAO {
         return null;
     }
 
-    public boolean save(OrderDTO order) throws SQLException {
-        /*String sql = "INSERT INTO orders VALUES(?, ?, ?,?,?,?,?)";
+   /* public boolean save(OrderDTO order) throws SQLException {
+        *//*String sql = "INSERT INTO orders VALUES(?, ?, ?,?,?,?,?)";
         PreparedStatement pstm = DbConnection.getInstance().getConnection()
                 .prepareStatement(sql);
             pstm.setString(1, order.getOrderId());
@@ -45,20 +45,18 @@ public class OrderDAOImpl implements OrderDAO {
             pstm.setString(5, order.getCuId());
             pstm.setString(6, order.getPayId());
             pstm.setString(7, order.getEmployeeId());
-        return pstm.executeUpdate() > 0;*/
-        return SQLUtil.execute("INSERT INTO orders VALUES(?, ?, ?,?,?,?,?)",order.getOrderId(),order.getDescription(),order.getPaymentAmount(),order.getDate(),order.getCuId(),order.getPayId(),order.getEmployeeId());
+        return pstm.executeUpdate() > 0;*//*
     }
-
-    @Override
-    public boolean save(Order entity) throws SQLException {
-        return false;
+*/
+    public boolean save(Order order) throws SQLException {
+        return SQLUtil.execute("INSERT INTO orders VALUES(?, ?, ?,?,?,?,?)",order.getOrderId(),order.getDescription(),order.getPaymentAmount(),order.getDate(),order.getCuId(),order.getPayId(),order.getEmployeeId());
     }
 
     @Override
     public ArrayList<Order> getAll() throws SQLException {
         return null;
     }
-
+//INSERT INTO orders VALUES('ORD001','Paracetamol',1212.1,2024-07-12,'C001','PAY003','E001');
     @Override
     public boolean delete(String id) throws SQLException {
         return false;

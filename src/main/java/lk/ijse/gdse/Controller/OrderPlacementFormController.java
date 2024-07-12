@@ -364,6 +364,10 @@ public class OrderPlacementFormController {
 
         PaymentDTO payment = new PaymentDTO(paymentID,PayMethod,Amount, date);
         PlaceOrderDTO po = new PlaceOrderDTO(order, odList, payment);
+        /*paymentBO.savePayment(payment);
+        orderBO.saveOrder(order);
+        itemBO.update1(odList);
+        orderDetailsBO.save(odList);*/
 
         boolean isPlaced = placeOrderBO.placeOrder(po);
         if (isPlaced) {
